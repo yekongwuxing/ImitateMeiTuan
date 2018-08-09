@@ -20,12 +20,34 @@ import MinePage from './src/pages/Mine/MinePage';
 import TabBarItem from './src/widget/TabBarItem';
 
 import Color from './src/widget/Color';
-//页面切换动画插入器
-import CardStackStyleInterpolator from 'react-navigation/src/views/StackView/StackViewStyleInterpolator';
+
+const HomePageStack = createStackNavigator({
+    HomePage:{
+        screen:HomePage
+    },
+});
+
+const NearbyPageStack = createStackNavigator({
+    NearbyPage:{
+        screen:NearbyPage
+    }
+});
+
+const OrderPageStack = createStackNavigator({
+    OrderPage:{
+        screen:OrderPage
+    }
+});
+
+const MinePageStack = createStackNavigator({
+    MinePage:{
+        screen:MinePage
+    }
+});
 
 const TabBar = createBottomTabNavigator({
     HomePage:{
-        screen:HomePage,
+        screen:HomePageStack,
         navigationOptions:({navigation}) => ({
           tabBarLabel:'团购',
             tabBarIcon:({focused,tintColor}) => (
@@ -39,7 +61,7 @@ const TabBar = createBottomTabNavigator({
         })
     },
     NearbyPage:{
-        screen:NearbyPage,
+        screen:NearbyPageStack,
         navigationOptions:({navigation}) => ({
             tabBarLabel:'附近',
             tabBarIcon:({focused,tintColor}) => (
@@ -53,7 +75,7 @@ const TabBar = createBottomTabNavigator({
         })
     },
     OrderPage:{
-        screen:OrderPage,
+        screen:OrderPageStack,
         navigationOptions:({navigation}) => ({
             tabBarLabel:'订单',
             tabBarIcon:({focused,tintColor}) => (
@@ -67,7 +89,7 @@ const TabBar = createBottomTabNavigator({
         })
     },
     MinePage:{
-        screen:MinePage,
+        screen:MinePageStack,
         navigationOptions:({navigation}) => ({
             tabBarLabel:'我的',
             tabBarIcon:({focused,tintColor}) => (
@@ -88,27 +110,28 @@ const TabBar = createBottomTabNavigator({
         inactiveTintColor:Color.gray,
         style:{backgroundColor:'#fff'}
     }
-
-
-
 });
 
-const App = createStackNavigator({
-    TabBar:{
-        screen:TabBar,
-        navigationOptions:{
-            gesturesEnabled:true,
-            headerTitle:null
+TabBar.navigationOptions = {
+    // 从堆栈Navigator隐藏标题
+    header:null
+};
 
-        }
+const AppNavigator = createStackNavigator({
+    TabBar:{
+        screen:TabBar
     }
 },{
-    mode: 'card',// 页面切换模式, 左右是card(相当于iOS中的push效果), 上下是modal(相当于iOS中的modal效果)
-    headerMode: 'none',//// 导航栏的显示模式, screen: 有渐变透明效果, float: 无透明效果, none: 隐藏导航栏
-    transitionConfig: () => ({ //切换动画
-        screenInterpolator: CardStackStyleInterpolator.forHorizontal //水平动画
-    })
+    navigationOptions: {
+        headerBackTitle: null,
+        headerTintColor: '#333333',
+        showIcon: true,
+    },
 
 });
 
-export default App
+export default class  App extends Component{
+    render(){
+        return<AppNavigator />
+    }
+}
