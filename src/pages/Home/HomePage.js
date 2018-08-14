@@ -3,20 +3,29 @@ import {
     View,
     StyleSheet,
     Text,
-    TextInput,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    FlatList
 
 } from 'react-native';
 import Color from "../../widget/Color";
 import NavigationItem from "../../widget/NavigationItem";
 import screen from '../../common/screen';
+import api from '../../api';
+
+import RenderItem from './RenderItem';
 
 type Props = {
     navigation:any
 }
 
-class HomePage extends Component<Props>{
+type State = {
+    discounts:Array<Object>,
+    dataList:Array<Object>,
+    refreshing:boolean
+
+}
+class HomePage extends Component<Props,State>{
     static navigationOptions = ({navigation}: any) => ({
         headerTitle: (
             <TouchableOpacity style={styles.searchBar}>
@@ -43,25 +52,91 @@ class HomePage extends Component<Props>{
         ),
         headerStyle: {backgroundColor: Color.primary},
     })
-    // 构造
-      constructor(props:Props) {
-        super(props);
-        // 初始状态
+    constructor(props: Props) {
+        super(props)
+
         this.state = {
-            discount:[],
-            dataList:[],
-            refreshing:false
-        };
-      }
+            discounts: [],
+            dataList: [],
+            refreshing: false,
+        }
+    }
 
-    render(){
-        return(
-            <View style={styles.container}>
+    componentDidMount() {
+        this.requestData()
+    }
 
-            </View>
+    requestData = () => {
+        this.setState({refreshing: true})
+
+        this.requestDiscount()
+        this.requestRecommend()
+    }
+
+    requestRecommend = async () => {
+        try {
+            let response = await fetch(api.recommend)
+            let json = await response.json()
+
+            let dataList = json.data.map(
+                (info) => {
+                    return {
+                        id: info.id,
+                        imageUrl: info.squareimgurl,
+                        title: info.mname,
+                        subtitle: `[${info.range}]${info.title}`,
+                        price: info.price
+                    }
+                }
+            )
+
+            this.setState({
+                dataList: dataList,
+                refreshing: false,
+            })
+        } catch (error) {
+            this.setState({refreshing: false})
+        }
+    }
+
+    requestDiscount = async () => {
+        try {
+            let response = await fetch(api.discount)
+            let json = await response.json()
+            this.setState({discounts: json.data})
+        } catch (error) {
+            alert(error)
+        }
+    }
+
+    renderCell = ({item}) => {
+        return (
+            <RenderItem info={item} />
         );
     }
 
+    onCellSelected = (info: Object) => {
+        StatusBar.setBarStyle('default', false)
+    }
+
+    keyExtractor = (item: Object, index: number) => {
+        return item.id
+    }
+
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <FlatList
+                    data={this.state.dataList}
+                    renderItem={this.renderCell}
+                    keyExtractor={this.keyExtractor}
+                    onRefresh={this.requestData}
+                    refreshing={this.state.refreshing}
+                />
+            </View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -82,6 +157,17 @@ const styles = StyleSheet.create({
         width:20,
         height:20,
         margin:5
+    },
+    item:{
+        padding:10
+
+    },
+    itemTitle:{
+        fontSize:18,
+        fontWeight:'bold'
+    },
+    itemYear:{
+        fontSize:16
     }
 
 })
