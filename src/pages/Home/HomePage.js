@@ -14,7 +14,9 @@ import screen from '../../common/screen';
 import api from '../../api';
 
 import RenderItem from './RenderItem';
-
+import HomeMenuView from './HomeMenuView';
+import {Heading3} from "../../widget/Text";
+import SpacingView from './SpacingView';
 type Props = {
     navigation:any
 }
@@ -113,7 +115,7 @@ class HomePage extends Component<Props,State>{
     }
     renderCell = ({item}) => {
         return (
-            <RenderItem info={item} />
+            <RenderItem info={item}/>
         );
     }
 
@@ -124,7 +126,21 @@ class HomePage extends Component<Props,State>{
     keyExtractor = (item: Object, index: number) => {
         return item.id
     }
+    renderHeader = () => {
+        return(
+            <View>
+                <HomeMenuView menuInfo={api.menuInfo} onMenuSelected={this.onMenuSelected}/>
+                <SpacingView />
+                <View style={styles.recommendHeader}>
+                    <Heading3>猜你喜欢</Heading3>
+                </View>
+            </View>
+        )
 
+    }
+    onMenuSelected = (index) => {
+        alert(index)
+    }
 
     render() {
         return (
@@ -135,6 +151,8 @@ class HomePage extends Component<Props,State>{
                     keyExtractor={this.keyExtractor}
                     onRefresh={this.requestData}
                     refreshing={this.state.refreshing}
+                    ListHeaderComponent={this.renderHeader}
+
                 />
             </View>
         )
@@ -170,6 +188,15 @@ const styles = StyleSheet.create({
     },
     itemYear:{
         fontSize:16
+    },
+    recommendHeader:{
+        height:35,
+        justifyContent:'center',
+        borderWidth:screen.onePixel,
+        borderColor:Color.border,
+        paddingVertical:8,
+        paddingLeft:20,
+        backgroundColor:'white'
     }
 
 })

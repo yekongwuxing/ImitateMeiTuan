@@ -1,15 +1,11 @@
 import React,{Component} from 'react';
 import {
-    View,
     StyleSheet,
-    Text,
-    TextInput,
     Image,
     TouchableOpacity,
-    FlatList,
 } from 'react-native';
 import screen from '../../common/screen';
-import {heading3} from '../../widget/Text';
+import {Heading3} from '../../widget/Text';
 
 type Props = {
     title:string,
@@ -24,10 +20,10 @@ type Props = {
                               onPress={this.props.onPress}>
                 <Image style={styles.icon}
                        source={this.props.icon}
-                       resizeMethod='contain'/>
-                <heading3>
+                       resizeMethod='auto'/>
+                <Heading3>
                     {this.props.title}
-                </heading3>
+                </Heading3>
             </TouchableOpacity>
 
         )
@@ -36,13 +32,13 @@ type Props = {
 const styles = StyleSheet.create({
     container:{
         width:screen.width/5,
-        height:screen.height/5,
+        height:screen.width/5,
         justifyContent:'center',
         alignItems:'center',
     },
     icon:{
         width:screen.width/9,
-        height:screen.height/9,
+        height:screen.width/9,
         margin:5
 
     }
