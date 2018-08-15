@@ -5,7 +5,8 @@ import {
     Text,
     Image,
     TouchableOpacity,
-    FlatList
+    FlatList,
+    StatusBar
 
 } from 'react-native';
 import Color from "../../widget/Color";
@@ -96,7 +97,7 @@ class HomePage extends Component<Props,State>{
                 })
 
             })
-            .catch((event) => {
+            .catch((error) => {
                 this.setState({refreshing: false})
 
             });
@@ -115,12 +116,13 @@ class HomePage extends Component<Props,State>{
     }
     renderCell = ({item}) => {
         return (
-            <RenderItem info={item}/>
+            <RenderItem info={item} onPress={this.onCellSelected}/>
         );
     }
 
-    onCellSelected = (info: Object) => {
+    onCellSelected = ({item}) => {
         StatusBar.setBarStyle('default', false)
+        this.props.navigation.navigate('HomeDetail',{info:item})
     }
 
     keyExtractor = (item: Object, index: number) => {
@@ -162,7 +164,7 @@ class HomePage extends Component<Props,State>{
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:Color.page
+        backgroundColor:Color.paper
     },
     searchBar:{
         height:30,

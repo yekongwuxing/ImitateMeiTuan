@@ -18,6 +18,7 @@ import NearbyPage from './src/pages/Nearby/NearbyPage';
 import OrderPage from './src/pages/Order/OrderPage';
 import MinePage from './src/pages/Mine/MinePage';
 import TabBarItem from './src/widget/TabBarItem';
+import HomeDetail from './src/pages/Home/HomeDetail';
 
 import Color from './src/widget/Color';
 
@@ -120,7 +121,11 @@ TabBar.navigationOptions = {
 const AppNavigator = createStackNavigator({
     TabBar:{
         screen:TabBar
+    },
+    HomeDetail:{
+        screen:HomeDetail
     }
+
 },{
     navigationOptions: {
         headerBackTitle: null,
