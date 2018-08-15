@@ -73,42 +73,44 @@ class HomePage extends Component<Props,State>{
         this.requestRecommend()
     }
 
-    requestRecommend = async () => {
-        try {
-            let response = await fetch(api.recommend)
-            let json = await response.json()
-
-            let dataList = json.data.map(
-                (info) => {
-                    return {
-                        id: info.id,
-                        imageUrl: info.squareimgurl,
-                        title: info.mname,
-                        subtitle: `[${info.range}]${info.title}`,
-                        price: info.price
+    requestRecommend = () => {
+        fetch(api.recommend)
+            .then((response) => response.json())
+            .then((jsonData) => {
+                let dataList = jsonData.data.map(
+                    (info) => {
+                        return {
+                            id: info.id,
+                            imageUrl: info.squareimgurl,
+                            title: info.mname,
+                            subtitle: `[${info.range}]${info.title}`,
+                            price: info.price
+                        }
                     }
-                }
-            )
+                )
+                this.setState({
+                    dataList: dataList,
+                    refreshing: false,
+                })
 
-            this.setState({
-                dataList: dataList,
-                refreshing: false,
             })
-        } catch (error) {
-            this.setState({refreshing: false})
-        }
-    }
+            .catch((event) => {
+                this.setState({refreshing: false})
 
-    requestDiscount = async () => {
-        try {
-            let response = await fetch(api.discount)
-            let json = await response.json()
-            this.setState({discounts: json.data})
-        } catch (error) {
-            alert(error)
-        }
+            });
     }
-
+    requestDiscount = () => {
+        fetch(api.discount)
+            .then((response) => response.json())
+            .then((jsonData) => {
+                this.setState({
+                    discounts:jsonData.data
+                })
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    }
     renderCell = ({item}) => {
         return (
             <RenderItem info={item} />
