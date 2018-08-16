@@ -14,10 +14,10 @@ import NavigationItem from "../../widget/NavigationItem";
 import screen from '../../common/screen';
 import api from '../../api';
 
-import RenderItem from './RenderItem';
+import RenderItem from '../../widget/RenderItem';
 import HomeMenuView from './HomeMenuView';
 import {Heading3} from "../../widget/Text";
-import SpacingView from './SpacingView';
+import SpacingView from '../../widget/SpacingView';
 type Props = {
     navigation:any
 }

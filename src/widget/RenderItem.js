@@ -7,9 +7,9 @@ import {
     Image
 
 } from 'react-native';
-import screen from "../../common/screen";
-import Color from "../../widget/Color";
-import {Heading2,Paragraph} from '../../widget/Text';
+import screen from "../common/screen";
+import Color from "./Color";
+import {Heading2,Paragraph} from './Text';
 type Props={
     info:Object,
     onPress:Function

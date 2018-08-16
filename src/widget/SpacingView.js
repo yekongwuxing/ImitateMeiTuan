@@ -3,7 +3,7 @@ import {
     View,
     StyleSheet
 } from 'react-native';
-import Color from '../../widget/Color';
+import Color from './Color';
 
 export default class SpacingView extends Component{
     render() {

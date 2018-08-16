@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import RefreshListView,{RefreshState} from 'react-native-refresh-list-view';
-import RenderItem from '../Home/RenderItem';
+import RenderItem from '../../widget/RenderItem';
 import api from "../../api";
 import NearHeader from "./NearHeader";
 
