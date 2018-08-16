@@ -7,13 +7,17 @@ import {
     StyleSheet
 } from 'react-native';
 
-import NavigationItem from '../../widget/NavigationItem';
+type Props = {
+    navigation: any,
+}
+
 import Color from "../../widget/Color";
 import screen from "../../common/screen";
 import {Paragraph} from "../../widget/Text";
 import ScrollableTabView,{DefaultTabBar,ScrollableTabBar} from 'react-native-scrollable-tab-view'
+import NearListScene from './NearListScene';
 
-export  default class NearbyPage extends Component{
+export  default class NearbyPage extends Component<Props>{
     static navigationOptions = ({navigation}:any) => ({
         headerLeft:(
             <TouchableOpacity style={styles.leftContainer}>
@@ -52,12 +56,13 @@ export  default class NearbyPage extends Component{
                                tabBarInactiveTextColor='#555555'
                                tabBarBackgroundColor='white'
             >
-                <Text style={styles.textStyle} tabLabel='tab1'>tab1</Text>
-                <Text style={styles.textStyle} tabLabel='tab2'>tab2</Text>
-                <Text style={styles.textStyle} tabLabel='tab3'>tab3</Text>
-                <Text style={styles.textStyle} tabLabel='tab4'>tab4</Text>
-
-
+                {titles.map((title,i) => (
+                    <NearListScene tabLabel={titles[i]}
+                                   key={i}
+                                   types={types[i]}
+                                   navigation={this.props.navigation}
+                    />
+                ))}
             </ScrollableTabView>
         );
     }

@@ -10,6 +10,7 @@
     "react": "16.4.1",
     "react-native": "0.56.0",
     "react-native-page-control": "^1.1.1",
+    "react-native-refresh-list-view": "^1.0.10",
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-navigation": "^2.11.2"
   },

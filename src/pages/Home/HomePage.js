@@ -67,6 +67,8 @@ class HomePage extends Component<Props,State>{
 
     componentDidMount() {
         this.requestData()
+        //去掉黄色警告
+        console.disableYellowBox = true;
     }
 
     requestData = () => {
